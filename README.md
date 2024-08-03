@@ -69,4 +69,4 @@ This NEXTJS Boiler App uses NEXT-AUTH for authentication
 
 ## Database Setup
 
-To connect with the existing database got to vercel and Projects storage and click `.env.local` and copy the envs
+To connect with the existing database got to vercel and Projects storage and click `.env.local` and copy the env
