@@ -11,7 +11,7 @@ CREATE TABLE accounts (
 );
 
 INSERT INTO accounts( owner, coordinates, contact_no, status,date_created) 
-VALUES ('Jorick Docallos', '11.5634° N, 124.4013° E','09538037545','active','2024-08-04')
+VALUES ('Neil Denzel', '11.5635° N, 124.4013° E','09538037545','active','2024-08-04')
 
 DELETE FROM reports
 DROP TABLE reports;

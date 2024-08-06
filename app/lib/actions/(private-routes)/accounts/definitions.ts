@@ -7,3 +7,13 @@ export type Accounts = {
   contact: string;
   status: string;
 };
+
+export type AccountsState = {
+  errors?: {
+    owner?: string[] | undefined;
+    coordinates?: string[] | undefined;
+    contact?: string[] | undefined;
+    status?: string[] | undefined;
+  };
+  message?: string;
+};
