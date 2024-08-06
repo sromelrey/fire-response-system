@@ -9,8 +9,8 @@ import clsx from 'clsx';
 const links = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
   { name: 'Reports', href: '/reports', icon: DocumentTextIcon },
-  { name: 'Account', href: '/account', icon: UserGroupIcon },
-  { name: 'Notification', href: '/notification', icon: BellIcon },
+  { name: 'Account', href: '/accounts', icon: UserGroupIcon },
+  { name: 'Notification', href: '/notifications', icon: BellIcon },
   { name: 'Settings', href: '/settings', icon: CogIcon }
 ];
 

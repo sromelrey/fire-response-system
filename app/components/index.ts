@@ -1,5 +1,12 @@
-import { TextBox } from "./textbox";
+import { TextBox } from './textbox'
 import { Button, SubmitButton } from "./buttons";
-import SideNav from "./sideNav";
+import { TableRowSkeleton, CardSkeleton } from "./skeletons";
+ 
 
-export { Button, SideNav, SubmitButton, TextBox };
+export {
+  Button,
+  CardSkeleton,
+  SubmitButton,
+  TableRowSkeleton,
+  TextBox
+};
