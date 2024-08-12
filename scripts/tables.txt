@@ -1,0 +1,33 @@
+-- Create accounts table with unique constraint on coordinates
+CREATE TABLE accounts (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY, 
+  owner VARCHAR(255) NOT NULL,
+  coordinates VARCHAR(255) NOT NULL,
+  contact_no VARCHAR(255) NOT NULL,
+  status VARCHAR(255) NOT NULL DEFAULT 'active',
+  date_created DATE NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  UNIQUE (coordinates)
+);
+
+INSERT INTO accounts( owner, coordinates, contact_no, status,date_created) 
+VALUES ('Neil Denzel', '11.5635° N, 124.4013° E','09538037545','active','2024-08-04')
+
+DELETE FROM reports
+DROP TABLE reports;
+SELECT * FROM reports;
+
+-- Create reports table with foreign key reference to coordinates in accounts table
+CREATE TABLE reports (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  house_id UUID NOT NULL,
+  coordinates VARCHAR(255),
+  date_and_time_recorded DATE NOT NULL,
+  image_url VARCHAR(255) NOT NULL,
+  FOREIGN KEY (house_id) REFERENCES users(id),
+  FOREIGN KEY (coordinates) REFERENCES accounts(coordinates)
+);
+
+
+INSERT INTO accounts(house_id, coordinates, date_and_time_recorded, image_url ) 
+VALUES ( )

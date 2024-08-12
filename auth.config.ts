@@ -21,7 +21,7 @@ export const authConfig: NextAuthConfig = {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
       const isPublicPath = publicPaths.includes(nextUrl.pathname);
-
+      console.log({ isLoggedIn });
       // If not logged in and trying to access a protected route, redirect to login
       if (!isLoggedIn) {
         if (nextUrl.pathname.startsWith('/login')) {
