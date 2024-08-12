@@ -20,20 +20,20 @@ export default async function Page() {
           </h1>
         </div>
         <div className="flex flex-col space-y-3 rounded-lg border-violet-100 bg-violet-500 bg-opacity-20 p-10 shadow-violet-200">
-          <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-            <Search placeholder={`Search todo's by title...`} />
-            <Link
-              href="/accounts/create-account"
-              className="rounded-lgpx-4 flex h-10 items-center text-sm font-medium text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              <Button className="sw-auto justify-center bg-indigo-500 hover:bg-indigo-400 focus-visible:outline-indigo-500 active:bg-indigo-600">
-                <span className="hidden md:block">Create Account</span>
-
-                <PlusIcon className="ml-2 h-5 w-5 text-gray-50" />
-              </Button>
-            </Link>
-          </div>
           <Suspense fallback={<TableRowSkeleton />}>
+            <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+              <Search placeholder={`Search todo's by title...`} />
+              <Link
+                href="/accounts/create-account"
+                className="rounded-lgpx-4 flex h-10 items-center text-sm font-medium text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                <Button className="sw-auto justify-center bg-indigo-500 hover:bg-indigo-400 focus-visible:outline-indigo-500 active:bg-indigo-600">
+                  <span className="hidden md:block">Create Account</span>
+
+                  <PlusIcon className="ml-2 h-5 w-5 text-gray-50" />
+                </Button>
+              </Link>
+            </div>
             <Table headers={headers} data={accounts ?? []} />
           </Suspense>
         </div>
