@@ -1,18 +1,21 @@
+'use server';
 import { Accounts, AccountsState } from './definitions';
 import { getSession } from '@/app/lib/utils';
 import { AccountsSchema } from './schema';
 import { fetchAccountByCoordinates } from './data';
 import { sql } from '@vercel/postgres';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function createAccount(prevState: AccountsState, formData: any) {
   const session = await getSession();
   const userId = session?.id;
 
   const validatedFields = AccountsSchema.safeParse({
-    owner: formData?.owner,
-    coordinates: formData?.coordinates,
-    contact: formData?.contact,
-    status: formData?.status
+    owner: formData.get('owner'),
+    coordinates: formData.get('coordinates'),
+    contact: formData.get('contact'),
+    status: formData.get('status')
   });
 
   if (!validatedFields.success) {
@@ -36,16 +39,14 @@ export async function createAccount(prevState: AccountsState, formData: any) {
   }
 
   try {
-    const responseData = await sql`INSERT INTO accounts( owner, coordinates, contact_no, status) 
-                VALUES (${owner},${coordinates},${contact},${status})
-    RETURNING id, owner, coordinates, contact_no, status, date_created;`;
-
-    return {
-      message: 'Account created successfully'
-    };
+    await sql`INSERT INTO accounts( owner, coordinates, contact_no, status) 
+                VALUES (${owner},${coordinates},${contact},${status})`;
   } catch (error) {
+    console.log(error);
     return {
       message: 'Account creation failed'
     };
   }
+  revalidatePath('/dashboard/accounts');
+  redirect('/dashboard/accounts');
 }

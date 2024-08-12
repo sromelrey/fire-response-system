@@ -14,11 +14,11 @@ export default function Form() {
   const [isDuplicate, setIsDuplicate] = useState(false);
 
   //   const hasErrors = Object.keys(state.errors?.date || {})?.length > 0;
-
-  //   useEffect(() => {
-  //     //* a state update for buttons if date is duplicated
-  //     hasErrors && setIsDuplicate(true);
-  //   }, [hasErrors]);
+  console.log({ state });
+  // useEffect(() => {
+  //   * a state update for buttons if date is duplicated
+  //   hasErrors && setIsDuplicate(true);
+  // }, [hasErrors]);
 
   return (
     <form

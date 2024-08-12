@@ -4,6 +4,7 @@ import { sql } from '@vercel/postgres';
 import type { Accounts } from './definitions';
 import { encrypt } from '../../../utils';
 import { cookies } from 'next/headers';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function getAccounts(): Promise<Accounts[] | undefined> {
   try {
@@ -21,6 +22,7 @@ export async function getAccounts(): Promise<Accounts[] | undefined> {
 }
 
 export async function fetchAccountByCoordinates(coordinates: string) {
-  const fetchCoordinates = await sql`SELECT * FROM accounts WHERE coordinates='${coordinates}'`;
+  noStore();
+  const fetchCoordinates = await sql`SELECT * FROM accounts WHERE coordinates=${coordinates}`;
   return fetchCoordinates.rows.length > 0;
 }
