@@ -24,10 +24,28 @@ CREATE TABLE reports (
   coordinates VARCHAR(255),
   date_and_time_recorded DATE NOT NULL,
   image_url VARCHAR(255) NOT NULL,
-  FOREIGN KEY (house_id) REFERENCES users(id),
+  FOREIGN KEY (house_id) REFERENCES accounts(id),
   FOREIGN KEY (coordinates) REFERENCES accounts(coordinates)
 );
 
 
-INSERT INTO accounts(house_id, coordinates, date_and_time_recorded, image_url ) 
-VALUES ( )
+INSERT INTO reports(house_id, coordinates, date_and_time_recorded, image_url ) 
+VALUES ('6ba41540-5368-4df4-a7d8-76e3b46175a3','11.5634° N, 124.4013° E',CURRENT_TIMESTAMP,'https://www.dkiservices.com/wp-content/uploads/2020/02/Is-Food-Safe-to-Eat-After-a-Fire_.jpg' )
+
+
+select * from reports
+
+INSERT INTO reports(house_id, coordinates, date_and_time_recorded, image_url ) 
+VALUES ('6ba41540-5368-4df4-a7d8-76e3b46175a3','11.5634° N, 124.4013° E',CURRENT_TIMESTAMP,'https://www.dkiservices.com/wp-content/uploads/2020/02/Is-Food-Safe-to-Eat-After-a-Fire_.jpg' )
+
+
+
+ALTER TABLE reports
+DROP CONSTRAINT IF EXISTS reports_house_id_fkey;
+
+ALTER TABLE reports
+DROP CONSTRAINT IF EXISTS reports_coordinates_fkey;
+
+ALTER TABLE reports
+ADD CONSTRAINT reports_house_id_fkey
+FOREIGN KEY (house_id) REFERENCES accounts(id);
