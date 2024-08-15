@@ -1,7 +1,7 @@
 'use client';
 import { Button, SubmitButton, TextBox } from '@/app/components';
 import { createAccount } from '@/app/lib/actions/(private-routes)/accounts/actions';
-import { AtSymbolIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { AtSymbolIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import SnackBar from '@/app/components/snackbar';
 import Link from 'next/link';
 import { useFormState } from 'react-dom';
@@ -13,12 +13,11 @@ export default function Form() {
   const [state, dispatch] = useFormState(createAccount, initialState);
   const [isDuplicate, setIsDuplicate] = useState(false);
 
-  //   const hasErrors = Object.keys(state.errors?.date || {})?.length > 0;
+  const hasErrors = Object.keys(state.errors?.coordinates || {})?.length > 0;
   console.log({ state });
-  // useEffect(() => {
-  //   * a state update for buttons if date is duplicated
-  //   hasErrors && setIsDuplicate(true);
-  // }, [hasErrors]);
+  useEffect(() => {
+    hasErrors && setIsDuplicate(true);
+  }, [hasErrors]);
 
   return (
     <form
@@ -26,10 +25,7 @@ export default function Form() {
       className="space-y-3 rounded-lg border-slate-100 bg-slate-900 bg-opacity-20 shadow-slate-200"
     >
       {/* TS validation for the objects  */}
-      {/* {Object.keys(state.errors?.date || {})?.length > 0 &&
-        (state?.errors?.date || []).map((error: string, index: number) => (
-          <SnackBar message={error} type="error" key={index} />
-        ))} */}
+
       <div className="flex-1 rounded-lg px-6 pb-4 pt-8">
         <div className="flex flex-row justify-center text-center">
           <Link href="/signup" className="mb-3 ml-2 mt-5 block text-2xl font-medium text-white">
@@ -64,6 +60,8 @@ export default function Form() {
               placeholder="Enter coordinates"
               isInline
               required
+              hasError={hasErrors}
+              errorMessage={state.errors?.coordinates || ''}
             />
           </div>
           <div>
@@ -102,6 +100,14 @@ export default function Form() {
           >
             Create the account
           </SubmitButton>
+        </div>
+        <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true">
+          {/* {errorMessage && (
+            <>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          )} */}
         </div>
       </div>
     </form>

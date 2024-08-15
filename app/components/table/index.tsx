@@ -4,6 +4,7 @@ import React from 'react';
 type TableProps = {
   headers: string[];
   data: Record<string, any>[];
+  headerKeyMap: { [key: string]: string }; // Add headerKeyMap as a prop
 };
 
 const headerKeyMap: { [key: string]: string } = {
@@ -15,7 +16,7 @@ const headerKeyMap: { [key: string]: string } = {
   'Date Created': 'date_created'
 };
 
-const Table: React.FC<TableProps> = ({ headers, data }) => {
+const Table: React.FC<TableProps> = ({ headers, data, headerKeyMap }) => {
   const formatValue = (value: any) => {
     if (value instanceof Date) {
       return value.toLocaleDateString(); // Format the date as needed

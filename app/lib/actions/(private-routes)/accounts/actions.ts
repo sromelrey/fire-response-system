@@ -47,6 +47,6 @@ export async function createAccount(prevState: AccountsState, formData: any) {
       message: 'Account creation failed'
     };
   }
-  revalidatePath('/dashboard/accounts');
-  redirect('/dashboard/accounts');
+  revalidatePath('/accounts');
+  redirect('/accounts');
 }
