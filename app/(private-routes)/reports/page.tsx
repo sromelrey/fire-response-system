@@ -15,6 +15,7 @@ export default async function Page() {
     'Date and Time Recorded': 'date_and_time_recorded',
     Image: 'image_url'
   };
+
   return (
     <main className="flex items-center justify-center border-r-indigo-800 md:h-screen">
       <div className="relative mx-auto flex w-auto max-w-[1200px] flex-col space-y-2.5 p-4 md:-mt-32">
@@ -23,7 +24,7 @@ export default async function Page() {
             Reports
           </h1>
         </div>
-        <div className="flex flex-col space-y-3 rounded-lg border-violet-100 bg-violet-500 bg-opacity-20 p-10 shadow-violet-200">
+        <div className="flex flex-col space-y-3 rounded-lg border-violet-100 bg-red-500 bg-opacity-20 p-10 shadow-violet-200">
           <Suspense fallback={<TableRowSkeleton />}>
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
               <Search placeholder={`Search reports's by title...`} />

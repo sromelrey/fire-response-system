@@ -22,7 +22,7 @@ export default function Form() {
   return (
     <form
       action={dispatch}
-      className="space-y-3 rounded-lg border-slate-100 bg-slate-900 bg-opacity-20 shadow-slate-200"
+      className="space-y-3 rounded-lg border-slate-100 bg-red-500 bg-opacity-20 shadow-slate-200"
     >
       {/* TS validation for the objects  */}
 

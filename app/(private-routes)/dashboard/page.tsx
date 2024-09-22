@@ -2,6 +2,8 @@
 import React from 'react';
 import { UserGroupIcon, BellIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { Modal } from '@/app/components';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 function page() {
   return (
@@ -49,6 +51,24 @@ function page() {
           </Link>
         </div>
       </div>
+      <Modal isOpen={true} className="justify-center rounded-xl bg-red-700">
+        <div className="flex flex-col content-center">
+          <div className="mb-4 flex flex-col rounded border-b-8 border-dotted text-center">
+            <ExclamationTriangleIcon className="h-28 w-28 self-center text-white" />
+          </div>
+
+          <div className="mx-12 flex flex-col rounded-xl border-8 border-solid border-white p-4 text-center">
+            <h1 className="text-4xl font-extrabold">Fire Detected</h1>
+            <h1 className="text-4xl font-extrabold">Code</h1>
+            <h1 className="text-4xl font-extrabold">114</h1>
+          </div>
+          <div className="mt-8 flex flex-col rounded text-center">
+            <h1 className="text-4xl font-extrabold"> Alpha</h1>
+            <h1 className="text-4xl font-extrabold">Cebu City</h1>
+            <h1 className="text-4xl font-extrabold underline">34.0522, -118.2437</h1>
+          </div>
+        </div>
+      </Modal>
     </main>
   );
 }
