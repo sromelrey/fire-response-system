@@ -26,3 +26,9 @@ export async function fetchAccountByCoordinates(coordinates: string) {
   const fetchCoordinates = await sql`SELECT * FROM accounts WHERE coordinates=${coordinates}`;
   return fetchCoordinates.rows.length > 0;
 }
+
+export async function fetchAccountByHouseId(house_no: string) {
+  noStore();
+  const fetchHouseId = await sql`SELECT * FROM accounts WHERE house_no=${house_no}`;
+  return fetchHouseId.rows.length > 0 ? fetchHouseId.rows[0] : false;
+}

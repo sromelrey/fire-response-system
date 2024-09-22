@@ -1,5 +1,5 @@
-// components/Table.tsx
 import React from 'react';
+import Image from 'next/image';
 
 type TableProps = {
   headers: string[];
@@ -49,9 +49,19 @@ const Table: React.FC<TableProps> = ({ headers, data, headerKeyMap }) => {
                   {headers.map((header, cellIndex) => {
                     const key = headerKeyMap[header];
                     const value = row[key];
-                    return (
+                    console.log({ key, value });
+                    return key !== 'image_url' ? (
                       <td key={cellIndex} className="whitespace-nowrap py-3 pl-6 pr-3">
                         {formatValue(value)}
+                      </td>
+                    ) : (
+                      <td key={cellIndex} className="whitespace-nowrap py-3 pl-6 pr-3">
+                        <Image
+                          src={value || '/default-image.jpg'} // Provide a fallback image
+                          width={100}
+                          height={100}
+                          alt="Picture of the author"
+                        />
                       </td>
                     );
                   })}

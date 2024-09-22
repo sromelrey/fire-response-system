@@ -1,0 +1,117 @@
+#include <SoftwareSerial.h>
+#include <TinyGsmClient.h>
+#include <HttpClient.h>
+
+// SoftwareSerial pins for SIM800/900
+SoftwareSerial sim(10, 11);  // RX, TX
+
+// GPRS credentials (leave empty if not required by your provider)
+const char apn[]  = "your_apn";  // APN of your provider
+const char user[] = "";          // Username (if required)
+const char pass[] = "";          // Password (if required)
+
+// Server information
+const char server[] = "your-vercel-app.vercel.app"; // Your API or server
+const int  port = 80;  // Port for HTTP
+
+TinyGsm modem(sim);
+TinyGsmClient client(modem);
+HttpClient http(client, server, port);
+
+void setup() {
+  // Initialize serial communication for debugging
+  Serial.begin(9600);
+  
+  // Initialize communication with the GSM module
+  sim.begin(9600);
+
+  // Restart the modem
+  Serial.println("Initializing modem...");
+  modem.restart();
+  delay(1000);
+
+  // Set the GSM module to SMS text mode
+  sim.println("AT+CMGF=1");
+  delay(200);
+
+  // Set up the GSM module to notify when a new SMS arrives
+  sim.println("AT+CNMI=2,2,0,0,0");
+  delay(200);
+
+  // Connect to the GPRS network
+  Serial.print("Connecting to APN: ");
+  Serial.println(apn);
+  if (!modem.gprsConnect(apn, user, pass)) {
+    Serial.println("GPRS connection failed!");
+    while (true);
+  }
+  Serial.println("GPRS connected!");
+
+  // Print a message indicating the system is ready
+  Serial.println("System Ready and Waiting for New SMS...");
+}
+
+void loop() {
+  // Check if a new SMS notification has been received
+  if (sim.available()) {
+    // Read the data from the GSM module
+    String smsData = sim.readString();
+
+    // Print the raw SMS data for debugging
+    Serial.println("New SMS Received:");
+    Serial.println(smsData);
+
+    // Extract and display the message content
+    String messageContent = extractMessageContent(smsData);
+
+    if (messageContent.length() > 0) {
+      // Send the extracted SMS content to the server via HTTP POST
+      sendToServer(messageContent);
+    }
+  }
+}
+
+// Function to extract the SMS content from the raw SMS data
+String extractMessageContent(String smsData) {
+  // Find where the actual SMS content starts
+  int messageStartIndex = smsData.indexOf("\",\"") + 6;
+
+  if (messageStartIndex != -1) {
+    // Extract the message content
+    String messageContent = smsData.substring(messageStartIndex);
+    
+    // Print the extracted message content for debugging
+    Serial.println("Extracted SMS Content:");
+    Serial.println(messageContent);
+    
+    return messageContent;
+  } else {
+    Serial.println("No SMS content found.");
+    return "";
+  }
+}
+
+// Function to send SMS content to the server via HTTP POST
+void sendToServer(String messageContent) {
+  // Prepare the JSON payload
+  String postData = "{\"sms_content\":\"" + messageContent + "\"}";
+
+  // Start the HTTP request
+  http.beginRequest();
+  http.post("/api/sms");  // Your API endpoint
+  http.sendHeader("Content-Type", "application/json");
+  http.sendHeader("Content-Length", postData.length());
+  http.beginBody();
+  http.print(postData);
+  http.endRequest();
+
+  // Get the response status and body
+  int statusCode = http.responseStatusCode();
+  String response = http.responseBody();
+
+  // Print the response from the server
+  Serial.print("Status code: ");
+  Serial.println(statusCode);
+  Serial.print("Response: ");
+  Serial.println(response);
+}
