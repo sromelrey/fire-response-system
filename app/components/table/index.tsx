@@ -1,9 +1,10 @@
-// components/Table.tsx
 import React from 'react';
+import Image from 'next/image';
 
 type TableProps = {
   headers: string[];
   data: Record<string, any>[];
+  headerKeyMap: { [key: string]: string }; // Add headerKeyMap as a prop
 };
 
 const headerKeyMap: { [key: string]: string } = {
@@ -15,7 +16,7 @@ const headerKeyMap: { [key: string]: string } = {
   'Date Created': 'date_created'
 };
 
-const Table: React.FC<TableProps> = ({ headers, data }) => {
+const Table: React.FC<TableProps> = ({ headers, data, headerKeyMap }) => {
   const formatValue = (value: any) => {
     if (value instanceof Date) {
       return value.toLocaleDateString(); // Format the date as needed
@@ -48,9 +49,19 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
                   {headers.map((header, cellIndex) => {
                     const key = headerKeyMap[header];
                     const value = row[key];
-                    return (
+                    console.log({ key, value });
+                    return key !== 'image_url' ? (
                       <td key={cellIndex} className="whitespace-nowrap py-3 pl-6 pr-3">
                         {formatValue(value)}
+                      </td>
+                    ) : (
+                      <td key={cellIndex} className="whitespace-nowrap py-3 pl-6 pr-3">
+                        <Image
+                          src={value || '/default-image.jpg'} // Provide a fallback image
+                          width={100}
+                          height={100}
+                          alt="Picture of the author"
+                        />
                       </td>
                     );
                   })}

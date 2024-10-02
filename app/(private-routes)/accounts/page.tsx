@@ -10,7 +10,14 @@ import Link from 'next/link';
 export default async function Page() {
   const accounts = await getAccounts();
   const headers = ['Home ID', 'Owner', 'Coordinates', 'Contact No.', 'Status', 'Date Created'];
-
+  const headerKeyMap: { [key: string]: string } = {
+    'Home ID': 'id',
+    Owner: 'owner',
+    Coordinates: 'coordinates',
+    'Contact No.': 'contact_no',
+    Status: 'status',
+    'Date Created': 'date_created'
+  };
   return (
     <main className="flex items-center justify-center border-r-indigo-800 md:h-screen">
       <div className="relative mx-auto flex w-auto max-w-[1200px] flex-col space-y-2.5 p-4 md:-mt-32">
@@ -34,7 +41,7 @@ export default async function Page() {
                 </Button>
               </Link>
             </div>
-            <Table headers={headers} data={accounts ?? []} />
+            <Table headers={headers} data={accounts ?? []} headerKeyMap={headerKeyMap ?? {}} />
           </Suspense>
         </div>
       </div>

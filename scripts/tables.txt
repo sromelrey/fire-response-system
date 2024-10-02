@@ -2,32 +2,53 @@
 CREATE TABLE accounts (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY, 
   owner VARCHAR(255) NOT NULL,
-  coordinates VARCHAR(255) NOT NULL,
+  coordinates VARCHAR(255) NOT NULL UNIQUE, -- Ensure coordinates are unique
   contact_no VARCHAR(255) NOT NULL,
   status VARCHAR(255) NOT NULL DEFAULT 'active',
   date_created DATE NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  UNIQUE (coordinates)
+  house_no VARCHAR(255) NOT NULL UNIQUE, -- Ensure house_no is unique
+  user_id UUID, -- Add user_id column
+  FOREIGN KEY (user_id) REFERENCES users(id) -- Create a foreign key reference to users table
 );
-
-INSERT INTO accounts( owner, coordinates, contact_no, status,date_created) 
-VALUES ('Neil Denzel', '11.5635° N, 124.4013° E','09538037545','active','2024-08-04')
-
 DELETE FROM reports
 DROP TABLE reports;
-SELECT * FROM reports;
 
--- Create reports table with foreign key reference to coordinates in accounts table
-CREATE TABLE reports (
+INSERT INTO accounts( owner, coordinates, contact_no, status,date_created,house_no ) 
+VALUES ('Neil Denzel', '11.5635° N, 124.4013° E','09538037545','active','2024-08-04','123')
+
+CREATE TABLE reports(
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY, 
+  owner VARCHAR(255) NOT NULL,
+  coordinates VARCHAR(255) NOT NULL UNIQUE, -- Ensure coordinates are unique
+   date_and_time_recorded DATE NOT NULL,
+  image_url VARCHAR(255) NOT NULL,
+  house_no VARCHAR(255) NOT NULL UNIQUE, -- Ensure house_no is unique
+  FOREIGN KEY (house_no ) REFERENCES accounts(house_no ),
+  FOREIGN KEY (coordinates ) REFERENCES accounts(coordinates )
+);
+
+INSERT INTO reports(owner, coordinates, date_and_time_recorded, image_url, house_no) 
+VALUES ('Neil Denzel', '11.5635° N, 124.4013° E', CURRENT_TIMESTAMP, 'https://www.dkiservices.com/wp-content/uploads/2020/02/Is-Food-Safe-to-Eat-After-a-Fire_.jpg', '123');
+
+select * from reports
+
+ALTER TABLE reports
+DROP CONSTRAINT IF EXISTS reports_house_id_fkey;
+
+ALTER TABLE reports
+DROP CONSTRAINT IF EXISTS reports_coordinates_fkey;
+
+ALTER TABLE reports
+ADD CONSTRAINT reports_house_id_fkey
+FOREIGN KEY (house_id) REFERENCES accounts(id);
+
+
+CREATE TABLE notifications (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   house_id UUID NOT NULL,
   coordinates VARCHAR(255),
   date_and_time_recorded DATE NOT NULL,
   image_url VARCHAR(255) NOT NULL,
-  FOREIGN KEY (house_id) REFERENCES users(id),
+  FOREIGN KEY (house_id) REFERENCES accounts(id),
   FOREIGN KEY (coordinates) REFERENCES accounts(coordinates)
 );
-
-
-INSERT INTO accounts(house_id, coordinates, date_and_time_recorded, image_url ) 
-VALUES ( )

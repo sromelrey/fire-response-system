@@ -1,18 +1,18 @@
 // This file contains type definitions for your data.
 export type Reports = {
   id: string;
-  house_id: string;
+  house_no: string;
+  incident_date: string;
   coordinates: string;
-  date_and_time_recorded: string;
-  image_url: string;
+  image: string;
 };
 
 export type ReportsState = {
   errors?: {
-    owner?: string[] | undefined;
+    house_no?: string[] | undefined;
+    incident_date?: string[] | undefined;
     coordinates?: string[] | undefined;
-    contact?: string[] | undefined;
-    status?: string[] | undefined;
+    image?: string[] | undefined;
   };
   message?: string;
 };
